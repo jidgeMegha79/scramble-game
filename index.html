@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scramble game</title>
+    <style>
+        *{margin: 0;padding: 0;box-sizing: border-box;}
+        header{
+            width: 100%;
+            line-height: 15vh;
+            background-color: #e61ea6;         
+        }
+        h1{
+            text-transform: uppercase;
+            text-align: center;
+            color: white;
+            font-size: 2rem;  
+            letter-spacing: 15px;         
+            text-shadow: 0 1px 0 #efefef,
+                         0 2px 0 #efefef,
+                         0 3px 0 #efefef,
+                         0 4px 0 #efefef,
+                         0 35px 5 rgba(0, 0, 0, .1)
+        }
+        section{
+            width: 100%;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e64eb6;
+        }
+        .game-area{
+            width:50%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #e61ea6;
+            box-shadow: 0 8px 6px -6px black;
+        }
+        h3{
+            text-align: center;
+            font-size: 1.7rem;
+        }
+        input{
+            text-align: center;
+            width:40%;
+            padding:20px 0;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            outline: none;
+            border: none;
+            margin:2rem 0;
+        }
+        button{
+            font-size: 1rem;
+            outline:none;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        button.btn{
+          padding: 1rem 2rem;
+          text-transform: uppercase;
+          transition-property: all;
+          transition-duration: 0.5ms;
+        }
+        button.btn:hover,button.btn:focus,button.btn:active{
+            letter-spacing: 0.15rem;
+            word-spacing: 0.2rem;
+        }
+        .hidden{
+            display:none
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>guess the word game</h1>
+    </header>
+    <section>
+        <div class="game-area">
+            <h3 class="msg"></h3>
+            <input type="text" class="hidden">
+            <button class="btn">click here to start</button>
+        </div>
+    </section>
+    <script>
+        const msg = document.querySelector(".msg");
+        const guess = document.querySelector("input")
+        const btn = document.querySelector(".btn");
+        let play =false
+        let words =[
+          'Andaman and Nicobar Islands',
+          'Andhra Pradesh',
+          'Arunachal Pradesh',
+          'Assam',
+          'Bihar',
+          'Chandigarh',
+          'Chhattisgarh',
+          'Dadra and Nagar Haveli and Daman and Diu',
+          'Goa',
+          'Gujurat',
+          'Haryana',
+          'Himachal Pradesh',
+          'Jammu and Kashmir',
+          'Jharkhand',
+          'Karnataka',
+          'Kerela',
+          'Ladakh',
+          'Lakshadweep',
+          'Madhya Pradesh',
+          'Maharashtra',
+          'Manipur',
+          'Meghalaya',
+          'Mizoram',
+          'Nagaland',
+          'NCT of Delhi',
+          'Odisha',
+          'Puducherry',
+          'Punjab',
+          'Rajasthan',
+          'Sikkim',
+          'Tamil Nadu',
+          'Telangana',
+          'Tripura',
+          'Uttarakhand',
+          'Uttar Pradesh',
+          'West Bengal'
+        ];      
+
+        let scrambleWords='';
+        let arrWord
+        let ranWord 
+
+        const getword = () => {
+         let ranNumber = Math.floor( Math.random()*words.length);
+         return words[ranNumber];
+        }
+        
+        const scramble = (arr) =>{
+            for(let i = arr.length-1; i > 0; i--){    
+            let j =Math.floor((Math.random() * (i+1)))         
+            let temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp   
+            }        
+            return arr.join('')           
+        }
+        btn.addEventListener("click",function(){
+            if(!play){
+               
+                play=true;
+                console.log(play)
+                btn.innerHTML="Guess";
+                guess.classList.toggle('hidden')
+                arrWord = getword()
+                ranWord =scramble(arrWord.split(''))
+               msg.innerHTML = `Guess the word : ${ranWord}`
+
+            }else{
+              let inValue = guess.value;  
+              console.log(arrWord,inValue)           
+              if(inValue === arrWord){
+                play = false;
+                msg.innerHTML = `Awesome it"s correct .it is ${arrWord}`
+                btn.innerHTML ="Start Again"
+                guess.classList.toggle('hidden')
+                guess.value=""
+              }else{
+                msg.innerHTML = `Ooops ! Sorry It's incorrect. Please try again ${ranWord}`
+              }
+            }
+        }) 
+        
+    </script>
+</body>
+</html>
